@@ -1,0 +1,10 @@
+Stripe Checkout Implementation for Application Fee:
+
+To implement Stripe Checkout, 
+I would create a backend API endpoint that initializes a Stripe Checkout Session with the required fee amount.
+I would include the application_id in the session metadata so that the payment can be linked after completion. 
+Before redirecting the user to Stripe, I would store a payment_request row in Supabase with status "pending" to track the flow.
+After the payment succeeds, Stripe sends a webhook event called checkout.session.completed.
+In the webhook handler, I would verify the event signature for security, 
+then update the payment_request row to “paid” and also update the application’s payment_status and stage/timeline in the database.
+This ensures the payment is validated server-side and the application workflow stays synchronized with Stripe.
